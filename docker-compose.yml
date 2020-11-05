@@ -1,0 +1,32 @@
+version: "3.5"
+
+services:
+  the_forest:
+    image: ich777/steamcmd:theforest
+    container_name: the_forest
+    restart: unless-stopped
+    environment:
+      - "GAME_ID=556450"
+      - "GAME_NAME=the_forest"
+      - "GAME_PORT=27015"
+      - "UID=99"
+      - "GID=100"
+      - "DATA_PERM=770"
+    ports:
+        - 8776:8776/udp
+        - 27015:27015/udp
+        - 27016:27016/udp
+    volumes:
+        - ./serverdata/steamcmd:/serverdata/steamcmd
+        - ./serverdata/serverfiles:/serverdata/serverfiles
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.6
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
